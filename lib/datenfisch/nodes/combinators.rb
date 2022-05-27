@@ -12,7 +12,7 @@ module Datenfisch
       end
 
       def named_node
-        Arel::Nodes::As.new @arg.node, @name
+        Arel::Nodes::As.new @arg.node, Arel::Nodes::SqlLiteral.new(@name.to_s)
       end
 
       def dependencies
@@ -63,7 +63,7 @@ module Datenfisch
 
       def node
         Arel::Nodes::NamedFunction.new 'CAST',
-          [Arel::Nodes::As.new(@arg.node, Arel::SqlLiteral.new(@type))]
+          [Arel::Nodes::As.new(@arg.node, Arel::Nodes::SqlLiteral.new(@type))]
       end
 
       def dependencies

@@ -22,7 +22,7 @@ module Datenfisch
 
     def group(field_name)
       field = @provider.model.arel_table[field_name]
-      aliased_field = Arel::Nodes::As.new field, field_name
+      aliased_field = Arel::Nodes::As.new field, Arel::Nodes::SqlLiteral.new(field_name)
       PrimaryQuery.new @provider, @query.select(aliased_field).group(field)
     end
 
@@ -69,7 +69,7 @@ module Datenfisch
 
     def initialize model, rel_name
       @model = model
-      @relation = model.reflections[rel_name]
+      @relation = model.reflections[rel_name.to_s]
       @table = @relation.klass.arel_table.clone
       @table.table_alias = rel_name.to_s.concat("_top4")
     end
@@ -125,7 +125,7 @@ module Datenfisch
       # Select field on which we joined
       if @join_attr
         named_join_attr = Arel::Nodes::As.new(
-          @base_provider[@join_attr], @join_attr.to_s
+          @base_provider[@join_attr], Arel::Nodes::SqlLiteral.new(@join_attr.to_s)
         )
         @ast = @ast.project named_join_attr
       end

@@ -5,7 +5,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'datenfisch', :git => 'git://github.com/Iasoon/datenfisch.git'
+gem 'datenfisch', github: 'ZeusWPI/datenfisch-lives'
 ```
 
 And then execute:
